@@ -1,10 +1,10 @@
 CREATE TABLE user_type (
 	id int NOT NULL,
-	user_role varchar(100),
+	"description" varchar(100),
 	PRIMARY KEY (id)
 );
 
-CREATE TABLE app_user (
+CREATE TABLE "user" (
 	id int NOT NULL,
 	user_type_id int NOT NULL,
 	username varchar(100),
@@ -18,19 +18,19 @@ CREATE TABLE app_user (
 
 CREATE TABLE developer (
 	id int NOT NULL,
-	dev_name varchar(100),
+	"name" varchar(100),
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE publisher (
 	id int NOT NULL,
-	pub_name varchar(100),
+	"name" varchar(100),
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE genre (
 	id int NOT NULL,
-	genre_name varchar(100),
+	"name" varchar(100),
 	PRIMARY KEY (id)
 );
 
@@ -41,9 +41,9 @@ CREATE TABLE game (
 	developer_id int NOT NULL,
 	publisher_id int NOT NULL,
 	release_date date,
-	game_description varchar(500),
+	"description" varchar(500),
 	PRIMARY KEY (id),
-	FOREIGN KEY (created_by_id) REFERENCES app_user(id),
+	FOREIGN KEY (created_by_id) REFERENCES "user"(id),
 	FOREIGN KEY (developer_id) REFERENCES developer(id),
 	FOREIGN KEY (publisher_id) REFERENCES publisher(id)
 );
@@ -59,29 +59,29 @@ CREATE TABLE game_genre (
 
 CREATE TABLE favourite_status (
 	id int NOT NULL,
-	status_type varchar(25),
+	"type" varchar(25),
 	PRIMARY KEY (id)
 );
 
 CREATE TABLE favourite (
 	id int NOT NULL,
-	app_user_id int NOT NULL,
+	user_id int NOT NULL,
 	game_id int NOT NULL,
 	favourite_status_id int NOT NULL,
 	rating int NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY (app_user_id) REFERENCES app_user(id),
+	FOREIGN KEY (user_id) REFERENCES "user"(id),
 	FOREIGN KEY (game_id) REFERENCES game(id),
 	FOREIGN KEY (favourite_status_id) REFERENCES favourite_status(id)
 );
 
 CREATE TABLE comment (
 	id int NOT NULL,
-	app_user_id int NOT NULL,
+	user_id int NOT NULL,
 	game_id int NOT NULL,
 	user_text varchar(500),
 	time_created timestamp,
 	PRIMARY KEY (id),
-	FOREIGN KEY (app_user_id) REFERENCES app_user(id),
+	FOREIGN KEY (user_id) REFERENCES "user"(id),
  	FOREIGN KEY (game_id) REFERENCES game(id)
 );
