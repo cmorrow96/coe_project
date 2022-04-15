@@ -9,6 +9,5 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "is-odd": "^3.0.1"
   }
 }
