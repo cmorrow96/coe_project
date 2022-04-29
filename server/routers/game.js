@@ -6,6 +6,11 @@ const {
   getGames,
   createGame,
   updateGame,
+  deleteGame,
+//   getComment,
+//   createComment,
+//   editComment,
+//   deleteComment,
 } = require("../controllers/game");
 
 const { Router } = require("express");
@@ -38,5 +43,15 @@ router
   );
 
 router.route("/:id(\\d+)").put(updateGame);
+
+router.route("/:id(\\d+)").delete(deleteGame);
+
+// router.route("/:id(\\d+)/comments/:id(\\d+)").get(getComment);
+
+// router.route("/:id(\\d+)/comments").post(createComment);
+
+// router.route("/:id(\\d+)/comments/:id(\\d+)").put(editComment);
+
+// router.route("/:id(\\d+)/comments/:id(\\d+)").delete(deleteComment);
 
 module.exports = router;

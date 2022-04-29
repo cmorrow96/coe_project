@@ -61,7 +61,7 @@ CREATE TABLE favourite (
 	user_id int NOT NULL,
 	game_id int NOT NULL,
 	favourite_status_id int NOT NULL,
-	rating int NOT NULL,
+	rating varchar(2),
 	FOREIGN KEY (user_id) REFERENCES "user"(id),
 	FOREIGN KEY (game_id) REFERENCES game(id),
 	FOREIGN KEY (favourite_status_id) REFERENCES favourite_status(id)

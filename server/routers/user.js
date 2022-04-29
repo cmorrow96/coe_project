@@ -6,6 +6,11 @@ const {
   getUsers,
   createUser,
   updateUser,
+  deleteUser,
+//   getGameFromFavourites,
+//   addGameToFavourites,
+//   updateGameInFavourites,
+//   deleteGameFromFavourites,
 } = require("../controllers/user");
 
 const { Router } = require("express");
@@ -28,10 +33,6 @@ router.route("/").post(
       .matches(/[!@#$%^&*(),.?":{}|<>]/)
       .withMessage("your password should have at least one special character")
       .trim(),
-    check("email_address")
-      .isEmail()
-      .withMessage("please enter a valid email address")
-      .trim(),
     check("forename")
       .isLength({ min: 3 })
       .withMessage("the forename must have minimum length of 3")
@@ -46,5 +47,15 @@ router.route("/").post(
 );
 
 router.route("/:id(\\d+)").put(updateUser);
+
+router.route("/:id(\\d+)").delete(deleteUser);
+
+// router.route("/:id(\\d+)/favourites/:id(\\d+)").get(getGameFromFavourites);
+
+// router.route("/:id(\\d+)/favourites").post(addGameToFavourites);
+
+// router.route("/:id(\\d+)/favourites/:id(\\d+)").put(updateGameInFavourites);
+
+// router.route("/:id(\\d+)/favourites/:id(\\d+)").post(deleteGameFromFavourites);
 
 module.exports = router;

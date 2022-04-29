@@ -8,34 +8,34 @@ datasource db {
 }
 
 model comment {
-  id           Int       @id
-  user_id      Int
-  game_id      Int
-  user_text    String?   @db.VarChar(500)
-  time_created DateTime? @db.Timestamp(6)
-  game         game      @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  user         user      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id          Int       @id @default(autoincrement())
+  user_id     Int
+  game_id     Int
+  post        String?   @db.VarChar(500)
+  time_posted DateTime? @db.Timestamp(6)
+  game        game      @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user        user      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model developer {
-  id   Int     @id
+  id   Int     @id @default(autoincrement())
   name String? @db.VarChar(100)
   game game[]
 }
 
 model favourite {
-  id                  Int              @id
+  id                  Int              @id @default(autoincrement())
   user_id             Int
   game_id             Int
   favourite_status_id Int
-  rating              Int
+  rating              String?          @db.VarChar(2)
   favourite_status    favourite_status @relation(fields: [favourite_status_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   game                game             @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   user                user             @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model favourite_status {
-  id        Int         @id
+  id        Int         @id @default(autoincrement())
   type      String?     @db.VarChar(25)
   favourite favourite[]
 }
@@ -56,9 +56,9 @@ model flyway_schema_history {
 }
 
 model game {
-  id            Int          @id
+  id            Int          @id @default(autoincrement())
   created_by_id Int
-  title         String?      @db.VarChar(100)
+  name          String?      @db.VarChar(100)
   developer_id  Int
   publisher_id  Int
   release_date  DateTime?    @db.Date
@@ -72,7 +72,7 @@ model game {
 }
 
 model game_genre {
-  id       Int   @id
+  id       Int   @id @default(autoincrement())
   game_id  Int
   genre_id Int
   game     game  @relation(fields: [game_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -80,21 +80,22 @@ model game_genre {
 }
 
 model genre {
-  id         Int          @id
+  id         Int          @id @default(autoincrement())
   name       String?      @db.VarChar(100)
   game_genre game_genre[]
 }
 
 model publisher {
-  id   Int     @id
+  id   Int     @id @default(autoincrement())
   name String? @db.VarChar(100)
   game game[]
 }
 
 model user {
-  id            Int         @id
+  id            Int         @id @default(autoincrement())
   user_type_id  Int
   username      String?     @db.VarChar(100)
+  password      String?     @db.VarChar(100)
   email_address String?     @db.VarChar(100)
   forename      String?     @db.VarChar(100)
   surname       String?     @db.VarChar(100)
@@ -106,7 +107,7 @@ model user {
 }
 
 model user_type {
-  id          Int     @id
+  id          Int     @id @default(autoincrement())
   description String? @db.VarChar(100)
   user        user[]
 }

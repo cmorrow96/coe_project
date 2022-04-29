@@ -7,7 +7,9 @@ const prisma = new PrismaClient();
 async function getPublisher(req, res) {
   const { id } = req.params;
   const publisher = await prisma.publisher.findUnique({
-    where: id,
+    where: {
+      id: parseInt(id),
+    },
   });
   if (publisher) {
     res.status(200).json(publisher);
@@ -24,6 +26,7 @@ async function getPublishers(req, res) {
       where: {
         name: {
           contains: name,
+          mode: "insensitive",
         },
       },
     };
@@ -40,7 +43,7 @@ async function createPublisher(req, res) {
   const { name } = req.body;
   const game = await prisma.developer.create({
     data: {
-      name,
+      name: name,
     },
   });
   res.status(201).send(game);
@@ -50,9 +53,11 @@ async function updatePublisher(req, res) {
   const { id } = req.params;
   const { name } = req.body;
   const publisher = await prisma.publisher.update({
-    where: id,
+    where: {
+      id: parseInt(id),
+    },
     data: {
-      name,
+      name: name,
     },
   });
   res.status(204).send(publisher);

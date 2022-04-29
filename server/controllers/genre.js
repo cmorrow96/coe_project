@@ -7,7 +7,9 @@ const prisma = new PrismaClient();
 async function getGenre(req, res) {
   const { id } = req.params;
   const genre = await prisma.genre.findUnique({
-    where: id,
+    where: {
+      id: parseInt(id),
+    },
   });
   if (genre) {
     res.status(200).json(genre);
@@ -24,6 +26,7 @@ async function getGenres(req, res) {
       where: {
         name: {
           contains: name,
+          mode: "insensitive",
         },
       },
     };
@@ -38,9 +41,9 @@ async function getGenres(req, res) {
 
 async function createGenre(req, res) {
   const { name } = req.body;
-  const genre = await prisma.developer.create({
+  const genre = await prisma.genre.create({
     data: {
-      name,
+      name: name,
     },
   });
   res.status(201).send(genre);
@@ -50,9 +53,11 @@ async function updateGenre(req, res) {
   const { id } = req.params;
   const { name } = req.body;
   const genre = await prisma.genre.update({
-    where: id,
+    where: {
+      id: parseInt(id),
+    },
     data: {
-      name,
+      name: name,
     },
   });
   res.status(204).send(genre);
