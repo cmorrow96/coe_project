@@ -7,10 +7,11 @@ const {
   createUser,
   updateUser,
   deleteUser,
-//   getGameFromFavourites,
-//   addGameToFavourites,
-//   updateGameInFavourites,
-//   deleteGameFromFavourites,
+  getGamesFromFavourites,
+  addGameToFavourites,
+  updateGameInFavourites,
+  deleteGameFromFavourites,
+  login,
 } = require("../controllers/user");
 
 const { Router } = require("express");
@@ -50,12 +51,16 @@ router.route("/:id(\\d+)").put(updateUser);
 
 router.route("/:id(\\d+)").delete(deleteUser);
 
-// router.route("/:id(\\d+)/favourites/:id(\\d+)").get(getGameFromFavourites);
+router.route("/:id(\\d+)/favourites/").get(getGamesFromFavourites);
 
-// router.route("/:id(\\d+)/favourites").post(addGameToFavourites);
+router.route("/:id(\\d+)/favourites/").post(addGameToFavourites);
 
-// router.route("/:id(\\d+)/favourites/:id(\\d+)").put(updateGameInFavourites);
+router.route("/:id(\\d+)/favourites/:fav_id(\\d+)").put(updateGameInFavourites);
 
-// router.route("/:id(\\d+)/favourites/:id(\\d+)").post(deleteGameFromFavourites);
+router
+  .route("/:id(\\d+)/favourites/:fav_id(\\d+)")
+  .delete(deleteGameFromFavourites);
+
+router.route("/login").post(login);
 
 module.exports = router;

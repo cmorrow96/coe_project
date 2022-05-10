@@ -8,11 +8,14 @@ const {
   userRouter,
   gameRouter,
 } = require("./routers/index");
+const {verifyToken} = require("./middleware/auth"); 
 const app = express();
 
 app.use(cors());
 app.use(json());
 app.use(urlencoded({ extended: true }));
+
+app.all("*", verifyToken);
 
 app.use("/genres", genreRouter);
 app.use("/developers", developerRouter);

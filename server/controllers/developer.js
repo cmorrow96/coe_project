@@ -1,16 +1,12 @@
 //import { PrismaClient } from "@prisma/client";
 
+const { developerService } = require("../services");
 const { PrismaClient } = require("@prisma/client");
-
 const prisma = new PrismaClient();
 
 async function getDeveloper(req, res) {
   const { id } = req.params;
-  const developer = await prisma.developer.findUnique({
-    where: {
-      id: parseInt(id),
-    },
-  });
+  const developer = await developerService.getDeveloper(id);
   if (developer) {
     res.status(200).json(developer);
   } else {
@@ -19,19 +15,8 @@ async function getDeveloper(req, res) {
 }
 
 async function getDevelopers(req, res) {
-  let filters = {};
-  const { name } = req.query;
-  if (name) {
-    filters = {
-      where: {
-        name: {
-          contains: name,
-          mode: "insensitive",
-        },
-      },
-    };
-  }
-  const developers = await prisma.developer.findMany(filters);
+  const { search } = req.query;
+  const developers = await developerService.getDevelopers(search);
   if (developers && developers.length > 0) {
     res.status(200).json(developers);
   } else {
@@ -41,25 +26,14 @@ async function getDevelopers(req, res) {
 
 async function createDeveloper(req, res) {
   const { name } = req.body;
-  const developer = await prisma.developer.create({
-    data: {
-      name: name,
-    },
-  });
+  const developer = await developerService.createDeveloper(name);
   res.status(201).send(developer);
 }
 
 async function updateDeveloper(req, res) {
   const { id } = req.params;
   const { name } = req.body;
-  const developer = await prisma.developer.update({
-    where: {
-      id: parseInt(id),
-    },
-    data: {
-      name: name,
-    },
-  });
+  const developer = await developerService.updateDeveloper(id, name);
   res.status(204).send(developer);
 }
 

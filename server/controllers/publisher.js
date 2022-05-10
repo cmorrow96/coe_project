@@ -1,16 +1,12 @@
 //import { PrismaClient } from "@prisma/client";
 
+const { publisherService } = require("../services");
 const { PrismaClient } = require("@prisma/client");
-
 const prisma = new PrismaClient();
 
 async function getPublisher(req, res) {
   const { id } = req.params;
-  const publisher = await prisma.publisher.findUnique({
-    where: {
-      id: parseInt(id),
-    },
-  });
+  const publisher = await publisherService.getPublisher(id);
   if (publisher) {
     res.status(200).json(publisher);
   } else {
@@ -19,19 +15,8 @@ async function getPublisher(req, res) {
 }
 
 async function getPublishers(req, res) {
-  let filters = {};
-  const { name } = req.query;
-  if (name) {
-    filters = {
-      where: {
-        name: {
-          contains: name,
-          mode: "insensitive",
-        },
-      },
-    };
-  }
-  const publishers = await prisma.publisher.findMany(filters);
+  const { search } = req.query;
+  const publishers = await publisherService.getPublishers(search);
   if (publishers && publishers.length > 0) {
     res.status(200).json(publishers);
   } else {
@@ -41,25 +26,14 @@ async function getPublishers(req, res) {
 
 async function createPublisher(req, res) {
   const { name } = req.body;
-  const game = await prisma.developer.create({
-    data: {
-      name: name,
-    },
-  });
+  const game = await publisherService.createPublisher(name);
   res.status(201).send(game);
 }
 
 async function updatePublisher(req, res) {
   const { id } = req.params;
   const { name } = req.body;
-  const publisher = await prisma.publisher.update({
-    where: {
-      id: parseInt(id),
-    },
-    data: {
-      name: name,
-    },
-  });
+  const publisher = await publisherService.updatePublisher(id, name);
   res.status(204).send(publisher);
 }
 

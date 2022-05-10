@@ -7,10 +7,10 @@ const {
   createGame,
   updateGame,
   deleteGame,
-//   getComment,
-//   createComment,
-//   editComment,
-//   deleteComment,
+  getComments,
+  createComment,
+  editComment,
+  deleteComment,
 } = require("../controllers/game");
 
 const { Router } = require("express");
@@ -32,7 +32,7 @@ router
         .withMessage("please provide the release date of game")
         .trim(),
       check("description")
-        .isLength({ min: 500 })
+        .isLength({ max: 500 })
         .withMessage(
           "give a brief description of the game within 500 characters"
         )
@@ -46,12 +46,23 @@ router.route("/:id(\\d+)").put(updateGame);
 
 router.route("/:id(\\d+)").delete(deleteGame);
 
-// router.route("/:id(\\d+)/comments/:id(\\d+)").get(getComment);
+router.route("/:id(\\d+)/comments/").get(getComments);
 
-// router.route("/:id(\\d+)/comments").post(createComment);
+router
+  .route("/:id(\\d+)/comments/")
+  .post(
+    [
+      check("post")
+        .isLength({ min: 500 })
+        .withMessage("ensure post is within 500 characters")
+        .trim(),
+    ],
+    validate,
+    createComment
+  );
 
-// router.route("/:id(\\d+)/comments/:id(\\d+)").put(editComment);
+router.route("/:id(\\d+)/comments/:comment_id(\\d+)").put(editComment);
 
-// router.route("/:id(\\d+)/comments/:id(\\d+)").delete(deleteComment);
+router.route("/:id(\\d+)/comments/:comment_id(\\d+)").delete(deleteComment);
 
 module.exports = router;
