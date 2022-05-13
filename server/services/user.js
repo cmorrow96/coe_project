@@ -3,18 +3,6 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const userTypes = require("../constants/userTypes");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-async function authenticate(username, password) {
-  const user = await getUserByUsername(username);
-  if (user) {
-      const passwordCorrect = await bcrypt.compare(password, user.password);
-      if(passwordCorrect){
-        return await generateTokens(user);
-      }
-  }
-}
 
 async function getUser(user_id) {
   return await prisma.user.findUnique({
@@ -48,58 +36,57 @@ async function getUsers(search) {
 }
 
 async function createUser(
-  user_username,
-  user_password,
-  user_email_address,
-  user_forename,
-  user_surname
+  username,
+  password,
+  email_address,
+  forename,
+  surname
 ) {
-  const hashedPassword = await bcrypt.hash(user_password, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
   return await prisma.user.create({
     data: {
       user_type_id: parseInt(userTypes.USER),
-      username: user_username,
+      username: username,
       password: hashedPassword,
-      email_address: user_email_address,
-      forename: user_forename,
-      surname: user_surname,
+      email_address: email_address,
+      forename: forename,
+      surname: surname,
     },
   });
 }
 
 async function updateUser(
-  user_id,
-  user_username,
-  user_password,
-  user_email_address,
-  user_forename,
-  user_surname
+  id,
+  username,
+  password,
+  email_address,
+  forename,
+  surname
 ) {
   return await prisma.user.update({
     where: {
-      id: parseInt(user_id),
+      id: parseInt(id),
     },
     data: {
       user_type_id: parseInt(userTypes.USER),
-      username: user_username,
-      password: user_password,
-      email_address: user_email_address,
-      forename: user_forename,
-      surname: user_surname,
+      username: username,
+      password: password,
+      email_address: email_address,
+      forename: forename,
+      surname: surname,
     },
   });
 }
 
-async function deleteUser(user_id) {
+async function deleteUser(id) {
   return await prisma.user.delete({
     where: {
-      id: parseInt(user_id),
+      id: parseInt(id),
     },
   });
 }
 
-async function getGamesFromFavourites(user_id) {
-  let filters = {};
+async function getGamesFromFavourites(user_id){
   if (user_id) {
     filters = {
       where: {
@@ -165,24 +152,9 @@ async function deleteGameFromFavourites(fav_id, user_id) {
   });
 }
 
-function generateTokens(user) {
-    return new Promise((response, reject) => {
-      try {
-        const accessToken = jwt.sign({ sub: user.id }, "accessTokenSecret", {
-          expiresIn: 1200,
-        });
-        const refreshToken = jwt.sign({ sub: user.id }, "refreshTokenSecret", {
-          expiresIn: 86400,
-        });
-        response({ accessToken, refreshToken });
-      } catch (error) {
-        reject(error);
-      }
-    });
-  }
-
 module.exports = {
   getUser,
+  getUserByUsername,
   getUsers,
   createUser,
   updateUser,
@@ -191,5 +163,4 @@ module.exports = {
   addGameToFavourites,
   updateGameInFavourites,
   deleteGameFromFavourites,
-  authenticate,
 };

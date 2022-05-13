@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = async (req, res, next) => {
   if (
-    (req.path === "/users/login" || req.path === "/users") &&
+    (req.path === "/auth/login" || req.path === "/users") &&
     req.method == "POST"
   )
     return next();
@@ -10,7 +10,9 @@ const verifyToken = async (req, res, next) => {
   if (req.headers.authorization) {
     const tokenVerified = jwt.verify(
       req.headers.authorization,
-      "accessTokenSecret"
+      req.path === "/auth/refresh"
+        ? "refreshTokenSecret"
+        : "accessTokenSecret"
     );
     if (tokenVerified) {
       res.locals.user = tokenVerified.sub;

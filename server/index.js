@@ -7,6 +7,7 @@ const {
   publisherRouter,
   userRouter,
   gameRouter,
+  authRouter,
 } = require("./routers/index");
 const {verifyToken} = require("./middleware/auth"); 
 const app = express();
@@ -22,6 +23,7 @@ app.use("/developers", developerRouter);
 app.use("/publishers", publisherRouter);
 app.use("/users", userRouter);
 app.use("/games", gameRouter);
+app.use("/auth", authRouter);
 
 app.listen(3001, () => {
   console.log("Server running...");

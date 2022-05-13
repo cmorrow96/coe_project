@@ -4,6 +4,7 @@ const services = {
   genreService: require("./genre"),
   publisherService: require("./publisher"),
   userService: require("./user"),
+  authService: require("./auth"),
 };
 
 module.exports = services;

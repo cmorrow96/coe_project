@@ -4,19 +4,7 @@ const { PrismaClient } = require("@prisma/client");
 const userTypes = require("../constants/userTypes");
 const favStatus = require("../constants/favStatus");
 const { userService } = require("../services");
-
 const prisma = new PrismaClient();
-
-async function login(req, res) {
-  const { username, password } = req.body;
-  const authTokens = await userService.authenticate(username, password);
-  if(authTokens){
-    res.status(200).json(authTokens);
-  }
-  else{
-    res.sendStatus(401);
-  }
-}
 
 async function getUser(req, res) {
   const { id } = req.params;
@@ -113,5 +101,4 @@ module.exports = {
   addGameToFavourites,
   updateGameInFavourites,
   deleteGameFromFavourites,
-  login,
 };
