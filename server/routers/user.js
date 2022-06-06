@@ -33,14 +33,6 @@ router.route("/").post(
       .matches(/[!@#$%^&*(),.?":{}|<>]/)
       .withMessage("your password should have at least one special character")
       .trim(),
-    check("forename")
-      .isLength({ min: 3 })
-      .withMessage("the forename must have minimum length of 3")
-      .trim(),
-    check("surname")
-      .isLength({ min: 3 })
-      .withMessage("the surname must have minimum length of 3")
-      .trim(),
   ],
   validate,
   createUser
@@ -59,6 +51,5 @@ router.route("/:id(\\d+)/favourites/:fav_id(\\d+)").put(updateGameInFavourites);
 router
   .route("/:id(\\d+)/favourites/:fav_id(\\d+)")
   .delete(deleteGameFromFavourites);
-
 
 module.exports = router;

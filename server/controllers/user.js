@@ -59,8 +59,8 @@ async function deleteUser(req, res) {
 }
 
 async function getGamesFromFavourites(req, res) {
-  const { user_id } = req.params;
-  const favourites = await userService.getGamesFromFavourites(user_id);
+  const { id } = req.params;
+  const favourites = await userService.getGamesFromFavourites(id);
   if (favourites) {
     res.status(200).json(favourites);
   } else {
@@ -86,8 +86,8 @@ async function updateGameInFavourites(req, res) {
 }
 
 async function deleteGameFromFavourites(req, res) {
-  const { fav_id, user_id } = req.params;
-  const favourite = await userService.deleteGameFromFavourites(fav_id, user_id);
+  const { id, fav_id } = req.params;
+  const favourite = await userService.deleteGameFromFavourites(id, fav_id);
   res.status(204).send(favourite);
 }
 

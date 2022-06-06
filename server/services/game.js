@@ -26,51 +26,53 @@ async function getGames(search) {
   return await prisma.game.findMany(filters);
 }
 
-async function createGame(game_name, game_release_date, game_description) {
+async function createGame(name, release_date, description) {
   return await prisma.game.create({
     data: {
       created_by_id: 1,
-      name: game_name,
+      name: name,
       developer_id: 1,
       publisher_id: 1,
-      release_date: game_release_date,
-      description: game_description,
+      release_date: new Date(release_date),
+      description: description,
     },
   });
 }
 
 async function updateGame(
-  game_id,
-  game_name,
-  game_release_date,
-  game_description
+  id,
+  name,
+  release_date,
+  description
 ) {
   return await prisma.game.update({
     where: {
-      id: parseInt(game_id),
+      id: parseInt(id),
     },
     data: {
-      name: game_name,
-      release_date: game_release_date,
-      description: game_description,
+      name: name,
+      release_date: new Date(release_date),
+      description: description,
     },
   });
 }
 
-async function deleteGame(game_id) {
+async function deleteGame(id) {
   return await prisma.game.delete({
     where: {
-      id: parseInt(game_id),
+      id: parseInt(id),
     },
   });
 }
 
-async function getComments(id) {
+async function getComments(game_id) {
   let filters = {};
-  if (id) {
+  if (game_id) {
     filters = {
       where: {
-        game_id: parseInt(id),
+        game: {
+          id: parseInt(game_id),
+        }
       },
     };
   }
@@ -94,7 +96,7 @@ async function editComment(id, comment_id, post) {
       AND: [
         {
           game: {
-            game_id: parseInt(id),
+            id: parseInt(id),
           },
         },
         {
@@ -116,7 +118,7 @@ async function deleteComment(id, comment_id) {
       AND: [
         {
           game: {
-            game_id: parseInt(id),
+            id: parseInt(id),
           },
         },
         {

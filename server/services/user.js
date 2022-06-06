@@ -4,10 +4,10 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const userTypes = require("../constants/userTypes");
 
-async function getUser(user_id) {
+async function getUser(id) {
   return await prisma.user.findUnique({
     where: {
-      id: parseInt(user_id),
+      id: parseInt(id),
     },
   });
 }
@@ -87,11 +87,12 @@ async function deleteUser(id) {
 }
 
 async function getGamesFromFavourites(user_id){
+  let filters = {};
   if (user_id) {
     filters = {
       where: {
         user: {
-          id: user_id,
+          id: parseInt(user_id),
         },
       },
     };
@@ -110,7 +111,7 @@ async function addGameToFavourites(fav_rating) {
   });
 }
 
-async function updateGameInFavourites(fav_id, user_id, rating) {
+async function updateGameInFavourites(user_id, fav_id, rating) {
   return await prisma.favourite.update({
     where: {
       AND: [
@@ -133,18 +134,18 @@ async function updateGameInFavourites(fav_id, user_id, rating) {
   });
 }
 
-async function deleteGameFromFavourites(fav_id, user_id) {
+async function deleteGameFromFavourites(user_id, fav_id) {
   return await prisma.favourite.delete({
     where: {
       AND: [
         {
-          favourite: {
-            id: parseInt(fav_id),
+          user: {
+            id: parseInt(user_id),
           },
         },
         {
-          user: {
-            id: parseInt(user_id),
+          favourite: {
+            id: parseInt(fav_id),
           },
         },
       ],

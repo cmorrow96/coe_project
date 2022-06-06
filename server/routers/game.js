@@ -27,7 +27,7 @@ router
         .isLength({ min: 3 })
         .withMessage("the name must have minimum length of 3")
         .trim(),
-      check("release date")
+      check("release_date")
         .isDate()
         .withMessage("please provide the release date of game")
         .trim(),
