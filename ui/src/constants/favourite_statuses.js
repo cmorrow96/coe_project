@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   Playing: 1,
   Completed: 2,
   On_Hold: 3,

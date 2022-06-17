@@ -2,7 +2,8 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = async (req, res, next) => {
   if (
-    (req.path === "/auth/login" || req.path === "/users") &&
+    // || req.path === "/users"
+    (req.path === "/auth/login") &&
     req.method == "POST"
   )
     return next();

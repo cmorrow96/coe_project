@@ -1,28 +1,30 @@
-import { InputFields } from "./components/index";
+import React from "react"
+import { InputFields } from "./components";
 import { Box } from "@mui/material";
 
-export default function signup() {
+const Signup = () => {
   return (
-    <Box>
-      <div
-        style={{
+    <>
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         <h1>Create a User Account</h1>
-      </div>
+      </Box>
 
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <InputFields></InputFields>
-      </div>
-    </Box>
+        <InputFields />
+      </Box>
+    </>
   );
-}
+};
+export default Signup;

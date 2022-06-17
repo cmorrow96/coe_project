@@ -3,6 +3,7 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const userTypes = require("../constants/userTypes");
+const bcrypt = require("bcrypt");
 
 async function getUser(id) {
   return await prisma.user.findUnique({
@@ -41,11 +42,12 @@ async function createUser(
   email_address,
   forename,
   surname
+
 ) {
   const hashedPassword = await bcrypt.hash(password, 10);
   return await prisma.user.create({
     data: {
-      user_type_id: parseInt(userTypes.USER),
+      user_type_id: parseInt(userTypes.User),
       username: username,
       password: hashedPassword,
       email_address: email_address,
@@ -68,7 +70,7 @@ async function updateUser(
       id: parseInt(id),
     },
     data: {
-      user_type_id: parseInt(userTypes.USER),
+      user_type_id: parseInt(userTypes.User),
       username: username,
       password: password,
       email_address: email_address,
@@ -105,7 +107,7 @@ async function addGameToFavourites(fav_rating) {
     data: {
       user_id: 1,
       game_id: 1,
-      fav_status_id: parseInt(favStatus.PLAYING),
+      fav_status_id: parseInt(favStatus.Playing),
       rating: fav_rating,
     },
   });
@@ -128,7 +130,7 @@ async function updateGameInFavourites(user_id, fav_id, rating) {
       ],
     },
     data: {
-      fav_status_id: parseInt(favStatus.COMPLETED),
+      fav_status_id: parseInt(favStatus.Completed),
       rating: rating,
     },
   });

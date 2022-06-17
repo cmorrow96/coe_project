@@ -1,7 +1,17 @@
 import React, { useState } from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import { NavigationRoutes } from "../../../constants";
 
-export const InputFields = () => {
+const InputFields = () => {
   const [email, setEmail] = useState("");
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -11,35 +21,46 @@ export const InputFields = () => {
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
+
   const [password, setPassword] = useState("");
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
+
+  const navigate = useNavigate();
+
   const signup = async () => {
-      let email_address = email;
-      let uname = username;
-      let pword = password;
+    let eaddress = email;
+    let uname = username;
+    let pword = password;
     const response = await fetch("http://localhost:3001/users", {
       method: "POST",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-          username: uname,
-          password: pword,
-          email_address: email_address
-      })
+        username: uname,
+        password: pword,
+        email_address: eaddress,
+      }),
     });
+    if (response.status === 201) {
+      alert("Account created, please login")
+    }
     return await response.json();
   };
 
-  const click = () => {
-      signup();
-      setEmail("");
-      setUsername("");
-      setPassword("");
-  }
+  const signupClick = () => {
+    signup();
+    setEmail("");
+    setUsername("");
+    setPassword("");
+    navigate(NavigationRoutes.Login);
+  };
 
   return (
     <Box
@@ -48,12 +69,12 @@ export const InputFields = () => {
         maxWdith: "100%",
       }}
     >
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: 10,
+          marginBottom: 3,
         }}
       >
         <TextField
@@ -63,14 +84,14 @@ export const InputFields = () => {
           onChange={handleEmailChange}
           variant="outlined"
         />
-      </div>
+      </Box>
 
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: 10,
+          marginBottom: 3,
         }}
       >
         <TextField
@@ -80,14 +101,14 @@ export const InputFields = () => {
           onChange={handleUsernameChange}
           variant="outlined"
         />
-      </div>
+      </Box>
 
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: 10,
+          marginBottom: 3,
         }}
       >
         <TextField
@@ -96,15 +117,29 @@ export const InputFields = () => {
           value={password}
           onChange={handlePasswordChange}
           variant="outlined"
+          type={showPassword ? "text" : "password"}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
-      </div>
+      </Box>
 
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: 10,
+          marginBottom: 3,
         }}
       >
         <Button
@@ -116,33 +151,32 @@ export const InputFields = () => {
             color: "white",
             display: "block",
           }}
-          onClick={() => click()}
+          onClick={() => signupClick()}
         >
           Signup
         </Button>
-      </div>
+      </Box>
 
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
         }}
       >
         <Typography>Already have an account?</Typography>
-      </div>
+      </Box>
 
-      <div
-        style={{
+      <Box
+        sx={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: 10,
+          marginBottom: 3,
         }}
       >
         <Button
           variant="contained"
-          href="/login"
           sx={{
             textAlign: "center",
             width: 150,
@@ -150,10 +184,12 @@ export const InputFields = () => {
             color: "white",
             display: "block",
           }}
+          onClick={() => navigate(NavigationRoutes.Login)}
         >
           Login
         </Button>
-      </div>
+      </Box>
     </Box>
   );
 };
+export default InputFields;

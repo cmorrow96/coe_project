@@ -3,10 +3,10 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-async function getGame(game_id) {
+async function getGame(id) {
   return await prisma.game.findUnique({
     where: {
-      id: parseInt(game_id),
+      id: parseInt(id),
     },
   });
 }
@@ -23,7 +23,34 @@ async function getGames(search) {
       },
     };
   }
-  return await prisma.game.findMany(filters);
+  return await prisma.game.findMany({
+    select: {
+      id: true,
+      name: true,
+      release_date: true,
+      developer: {
+        select: {
+          name: true,
+        },
+      },
+      publisher: {
+        select: {
+          name: true,
+        },
+      },
+      game_genre: {
+        select: {
+          genre: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
+      description: true,
+    },
+    ...filters,
+  });
 }
 
 async function createGame(name, release_date, description) {
@@ -39,12 +66,7 @@ async function createGame(name, release_date, description) {
   });
 }
 
-async function updateGame(
-  id,
-  name,
-  release_date,
-  description
-) {
+async function updateGame(id, name, release_date, description) {
   return await prisma.game.update({
     where: {
       id: parseInt(id),
@@ -72,7 +94,7 @@ async function getComments(game_id) {
       where: {
         game: {
           id: parseInt(game_id),
-        }
+        },
       },
     };
   }

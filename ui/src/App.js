@@ -1,36 +1,49 @@
 import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import Home from "./pages/home/index";
-import Games from "./pages/games/index";
-import Comments from "./pages/comments/index";
-import About from "./pages/about/index";
-import User from "./pages/user/index";
-import Signup from "./pages/signup/index";
-import Login from "./pages/login/index";
-
-import { CustomAppBar } from "./components/index";
+  About,
+  GameDetails,
+  Games,
+  Home,
+  Login,
+  UserProfile,
+  Signup,
+} from "./pages";
+import { CustomAppBar } from "./components";
+import { NavigationRoutes } from "./constants";
+import { SearchContext, AuthContext } from "./contexts";
+import { LoginUtils } from "./utils";
 
 function App() {
+  const { state } = AuthContext.useLogin();
+  const loggedIn = state.accessToken && !LoginUtils.isTokenExpired(state);
+  
   return (
     <>
-      <Router>
-        <CustomAppBar></CustomAppBar>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/games" element={<Games />} />
-          <Route path="/comments" element={<Comments />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/profile" element={<User />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
+      <BrowserRouter>
+        <SearchContext.SearchProvider>
+          <CustomAppBar />
+          <Routes>
+            <Route path={NavigationRoutes.About} element={<About />} />
+            <Route
+              path={NavigationRoutes.GameDetails}
+              element={<GameDetails />}
+            />
+            <Route path={NavigationRoutes.Games} element={<Games />} />
+            <Route path={NavigationRoutes.Home} element={<Home />} />
+            <Route path={NavigationRoutes.Login} element={<Login />} />
+            {loggedIn && (
+              <Route
+                path={NavigationRoutes.Profile}
+                element={<UserProfile />}
+              />
+            )}
+
+            <Route path={NavigationRoutes.Signup} element={<Signup />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </SearchContext.SearchProvider>
+      </BrowserRouter>
     </>
   );
 }

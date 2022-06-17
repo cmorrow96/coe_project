@@ -9,6 +9,7 @@ const { getUserByUsername, getUser } = require("./user");
 async function authenticate(username, password) {
   const user = await getUserByUsername(username);
   if (user) {
+    console.log(user)
     const passwordCorrect = await bcrypt.compare(password, user.password);
     if (passwordCorrect) {
       return await generateTokens(user, true);
@@ -28,12 +29,12 @@ function generateTokens(user, includeRefresh) {
   return new Promise((response, reject) => {
     try {
       const tokens = {
-        accessToken: jwt.sign({ sub: user.id }, "accessTokenSecret", {
+        accessToken: jwt.sign({ sub: user.id, username: user.username }, "accessTokenSecret", {
           expiresIn: 1200,
         }),
       };
       if (includeRefresh) {
-        tokens.refreshToken = jwt.sign({ sub: user.id }, "refreshTokenSecret", {
+        tokens.refreshToken = jwt.sign({ sub: user.id, username:user.username }, "refreshTokenSecret", {
           expiresIn: 86400,
         });
       }

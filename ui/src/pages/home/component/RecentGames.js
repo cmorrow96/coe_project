@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { DataTable } from "../../../components/index"
+import { DataTable } from "../../../components/index";
 
-export const GameList = () => {
+const RecentGames = () => {
   const columns = [
     { field: "name", headerName: "Game Title", width: 250 },
     { field: "release_date", headerName: "Release Date", width: 250 },
@@ -25,5 +25,11 @@ export const GameList = () => {
     });
   }, []);
 
-  return <DataTable rows={games} columns={columns}></DataTable>;
+  return (
+    <DataTable
+      rows={games}
+      columns={columns}
+    ></DataTable>
+  );
 };
+export default RecentGames;
