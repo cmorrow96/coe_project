@@ -31,7 +31,7 @@ const getUsername = (accessToken) => {
   return username;
 };
 
-const getUserId = (accessToken) => {
+const getUserID = (accessToken) => {
   if (typeof accessToken !== "string" || !accessToken) return false;
 
   const { sub } = jwtDecode(accessToken);
@@ -43,7 +43,7 @@ const LoginUtils = {
   isTokenExpired,
 //   isAdminUser,
   getUsername,
-  getUserId,
+  getUserID,
 };
 
 export default LoginUtils;

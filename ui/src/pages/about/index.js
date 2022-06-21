@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack } from "@mui/material";
 
- const about = () => {
+const About = () => {
   return (
     <div
       style={{
@@ -18,5 +18,5 @@ import { Stack } from "@mui/material";
       </Stack>
     </div>
   );
-}
-export default about;
+};
+export default About;

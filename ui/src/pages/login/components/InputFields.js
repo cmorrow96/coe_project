@@ -42,12 +42,12 @@ const InputFields = () => {
         ...loginResult,
       });
       navigate(NavigationRoutes.Home);
+      alert("Logged in")
     } else {
       alert("Invalid login details");
     }
     setUsername("");
     setPassword("");
-    alert("Logged in")
   };
 
   return (

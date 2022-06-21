@@ -36,6 +36,7 @@ router.route("/").post(
   ],
   validate,
   createUser
+
 );
 
 router.route("/:id(\\d+)").put(updateUser);

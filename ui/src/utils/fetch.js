@@ -22,7 +22,7 @@ fetchIntercept.register({
 });
 
 const fetchInstance = async (url, ...params) => {
-  return await fetch(configureUrl(url), ...params);
+    return await fetch(configureUrl(url), ...params);
 };
 
 export default fetchInstance;

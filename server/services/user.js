@@ -42,7 +42,6 @@ async function createUser(
   email_address,
   forename,
   surname
-
 ) {
   const hashedPassword = await bcrypt.hash(password, 10);
   return await prisma.user.create({
@@ -88,7 +87,7 @@ async function deleteUser(id) {
   });
 }
 
-async function getGamesFromFavourites(user_id){
+async function getGamesFromFavourites(user_id) {
   let filters = {};
   if (user_id) {
     filters = {
@@ -99,7 +98,16 @@ async function getGamesFromFavourites(user_id){
       },
     };
   }
-  return await prisma.favourite.findMany(filters);
+  return await prisma.favourite.findMany({
+    select: {
+      id: true,
+      game: true,
+      game_id: true,
+      rating: true,
+      favourite_status: true
+    },
+    ...filters,
+  });
 }
 
 async function addGameToFavourites(fav_rating) {

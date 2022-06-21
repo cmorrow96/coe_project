@@ -9,8 +9,8 @@ const { getUserByUsername, getUser } = require("./user");
 async function authenticate(username, password) {
   const user = await getUserByUsername(username);
   if (user) {
-    console.log(user)
     const passwordCorrect = await bcrypt.compare(password, user.password);
+    // const passwordCorrect = (password === user.password);
     if (passwordCorrect) {
       return await generateTokens(user, true);
     }

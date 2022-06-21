@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@mui/material";
 import { RecentGames, RecentUsers } from "./component/index";
 
-const home = () => {
+const Home = () => {
   return (
     <Box
       sx={{
@@ -18,4 +18,4 @@ const home = () => {
     </Box>
   );
 }
-export default home;
+export default Home;

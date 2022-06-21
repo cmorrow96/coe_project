@@ -1,8 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { DataTable } from "../../../components";
 import { Button } from "@mui/material";
+import { AuthContext } from "../../../contexts";
+import { UserService } from "../../../services";
+import { LoginUtils } from "../../../utils";
+import { useNavigate } from "react-router-dom";
+import { NavigationRoutes } from "../../../constants";
 
 const FavouritesList = () => {
+    const navigate = useNavigate();
+
   const viewButton = () => {
     return (
       <Button variant="outlined" color="primary" size="small">
@@ -32,49 +39,38 @@ const FavouritesList = () => {
       field: "game",
       headerName: "Game Title",
       valueFormatter: (params) => {
-        const favouriteNames = params.value.map((g) => {
-          return g.game.name;
-        });
-        return favouriteNames;
+        return params.value.name;
       },
       width: 250,
     },
-    {field: "favourite_status", headerName: "Favourite Status",
-        valueFormatter:(params) => {
-            const favouriteStatus = params.value.map((f) => {
-                return f.favourite_status.type;
-            })
-            return favouriteStatus;
-        }},
+    {
+      field: "favourite_status",
+      headerName: "Favourite Status",
+      valueFormatter: (params) => {
+        return params.value.type;
+      },
+      width: 250,
+    },
+    { field: "rating", headerName: "Rating", width: 250 },
     { field: "view", headerName: "", width: 80, renderCell: viewButton },
     { field: "edit", headerName: "", width: 80, renderCell: editButton },
     { field: "delete", headerName: "", width: 80, renderCell: deleteButton },
   ];
 
   const { state } = AuthContext.useLogin();
-
-  useEffect(() => {
-    const loggedIn = state.accessToken && !LoginUtils.isTokenExpired(state);
-    const username = loggedIn
-      ? LoginUtils.getUsername(state.accessToken)
-      : null;
-    setTUsername(username);
-  }, [state]);
-
-  const getFavs = async () => {
-    const response = await fetch("http://localhost:3001/users/", {
-      method: "GET",
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-    return await response.json();
-  };
+  const userID = LoginUtils.getUserID(state.accessToken);
 
   const [favs, setFavs] = useState([]);
   useEffect(() => {
-    getFavs().then((res) => {
-      setFavs(res);
+    UserService.getFavourites(userID).then(async (data) => {
+        const status = data.status;
+        if(status === 200){
+            const favs = data.data;
+            setFavs(favs);
+        }else{
+            alert("Error, check favourites");
+            navigate(NavigationRoutes.Profile);
+        }
     });
   }, []);
 

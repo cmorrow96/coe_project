@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Grid } from "@mui/material";
 import { GamesList, AddGame } from "./components";
 
-const games = () => {
+const Games = () => {
   return (
     <Grid
       container
@@ -42,4 +42,4 @@ const games = () => {
     </Grid>
   );
 };
-export default games;
+export default Games;

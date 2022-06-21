@@ -6,8 +6,6 @@ const prisma = new PrismaClient();
 
 async function login(req, res) {
   const { username, password } = req.body;
-  console.log(username)
-  console.log(password)
   const authTokens = await authService.authenticate(username, password);
   if (authTokens) {
     res.status(200).json(authTokens);

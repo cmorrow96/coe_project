@@ -4,6 +4,7 @@ import {
   About,
   GameDetails,
   Games,
+  AdminTools,
   Home,
   Login,
   UserProfile,
@@ -17,7 +18,7 @@ import { LoginUtils } from "./utils";
 function App() {
   const { state } = AuthContext.useLogin();
   const loggedIn = state.accessToken && !LoginUtils.isTokenExpired(state);
-  
+
   return (
     <>
       <BrowserRouter>
@@ -30,6 +31,7 @@ function App() {
               element={<GameDetails />}
             />
             <Route path={NavigationRoutes.Games} element={<Games />} />
+            <Route path={NavigationRoutes.AdminTools} element={<AdminTools />} />
             <Route path={NavigationRoutes.Home} element={<Home />} />
             <Route path={NavigationRoutes.Login} element={<Login />} />
             {loggedIn && (
