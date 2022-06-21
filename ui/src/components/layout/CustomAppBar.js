@@ -27,6 +27,10 @@ const pages = [
     nav: NavigationRoutes.Games,
   },
   {
+    display: "Admin Tools",
+    nav: NavigationRoutes.AdminTools,
+  },
+  {
     display: "About",
     nav: NavigationRoutes.About,
   },
@@ -64,11 +68,11 @@ const CustomAppBar = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-    const loggedIn = state && state.accessToken && !LoginUtils.isTokenExpired(state);
+    const loggedIn =
+      state && state.accessToken && !LoginUtils.isTokenExpired(state);
     if (loggedIn === "undefined") {
       setIsLoggedIn(false);
-    }
-    else{
+    } else {
       setIsLoggedIn(loggedIn);
       const username = loggedIn
         ? LoginUtils.getUsername(state.accessToken)
