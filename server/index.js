@@ -9,7 +9,7 @@ const {
   gameRouter,
   authRouter,
 } = require("./routers/index");
-const {verifyToken} = require("./middleware/auth");
+const { verifyToken } = require("./middleware/auth");
 const app = express();
 
 app.use(cors());

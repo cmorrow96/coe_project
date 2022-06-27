@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
+  Autocomplete,
+  Box,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
+  Stack,
   TextField,
-  Slide,
 } from "@mui/material";
-import { Box } from "@mui/system";
+import { useNavigate } from "react-router-dom";
+import { NavigationRoutes } from "../../../constants";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { DeveloperService, PublisherService, GenreService } from "../../../services";
 
 const AddGame = () => {
+  const navigate = useNavigate();
+
   const [open, setOpen] = useState(false);
-  const clickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
   };
 
@@ -26,7 +35,84 @@ const AddGame = () => {
     setName(event.target.value);
   };
 
+  const [dev, setDev] = useState("");
+  const handleDevChange = (event, dev) => {
+    setDev(dev);
+  };
+
+  const [devs, setDevs] = useState([]);
+  const getDevelopers = async () => {
+    DeveloperService.getDevelopers().then(async (data) => {
+      const status = data.status;
+      if (status == 200) {
+        console.log("dev", data);
+        const devArray = data.data;
+        setDevs(devArray);
+      } else {
+        alert("Error, check developers");
+        navigate(NavigationRoutes.Games);
+      }
+    });
+  };
+
+  const [pub, setPub] = useState("");
+  const handlePubChange = (event, pub) => {
+    setPub(pub);
+  };
+
+  const [pubs, setPubs] = useState([]);
+  const getPublishers = async () => {
+    PublisherService.getPublishers().then(async (data) => {
+      const status = data.status;
+      if (status == 200) {
+        console.log("pub", data);
+        const pubArray = data.data;
+        setPubs(pubArray);
+      } else {
+        alert("Error, check publishers");
+        navigate(NavigationRoutes.Games);
+      }
+    });
+  };
+
+  const [genres, setGenres] = useState([]);
+  const handleGenresChange = (event, newGenres) => {
+    console.log(newGenres);
+    setGenres(newGenres);
+  };
+
+  const [genresList, setGenresList] = useState([]);
+  const getGenres = async () => {
+    GenreService.getGenres().then(async (data) => {
+      const status = data.status;
+      if (status == 200) {
+        console.log("genres", data);
+        const genreArray = data.data;
+        setGenresList(genreArray);
+      } else {
+        alert("Error, check publishers");
+        navigate(NavigationRoutes.Games);
+      }
+    });
+  };
+
+  const [date, setDate] = useState(new Date());
+  const handleDateChange = (date) => {
+    setDate(date);
+  };
+
+  const [description, setDescription] = useState("");
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
+  };
+
   // const click = () => {};
+
+  useEffect(() => {
+    getDevelopers();
+    getPublishers();
+    getGenres();
+  }, []);
 
   return (
     <Box
@@ -34,32 +120,124 @@ const AddGame = () => {
         display: "flex",
         flexDirection: "column",
         m: "auto",
-        width: "fit-content",
-        p: 5,
+        p: 3,
       }}
     >
-      <Button variant="contained" color="primary" onClick={clickOpen}>
+      <Button variant="contained" color="primary" onClick={handleOpen}>
         Add Game
       </Button>
       <Dialog
         open={open}
         onClose={handleCLose}
+        aria-labelledby="add game title"
+        aria-describedby="add game description"
         keepMounted
       >
         <DialogContent>
-          <DialogTitle>{"Add Game"}</DialogTitle>
-          <DialogContentText>Please Add Game Details Below</DialogContentText>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              m: "auto",
+              p: 1,
+              width: 500,
+            }}
+          >
+            <DialogTitle id="add-game-title">{"Add Game"}</DialogTitle>
+            <DialogContentText id="add-game-description">
+              Please add details of a new game in the boxes below:
+            </DialogContentText>
+            <Divider sx={{ my: 1 }} />
+            <Stack display="flex" spacing={2} direction="column">
+              <TextField
+                variant="outlined"
+                fullWidth
+                label="Title"
+                placeholder="Enter a Title for this game..."
+                value={name}
+                onChange={handleNameChange}
+              />
+              <Autocomplete
+                id="developer-autocomplete"
+                options={devs}
+                getOptionLabel={(option) => (option.name ? option.name : "")}
+                isOptionEqualToValue={(option, value) =>
+                  option.name === value.name
+                }
+                onChange={handleDevChange}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Developer"
+                    placeholder="Type name or select a Developer from the list..."
+                  />
+                )}
+              />
+              <Autocomplete
+                id="publisher-autocomplete"
+                options={pubs}
+                getOptionLabel={(option) => (option.name ? option.name : "")}
+                isOptionEqualToValue={(option, value) =>
+                  option.name === value.name
+                }
+                onChange={handlePubChange}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Publisher"
+                    placeholder="Type name or select a Publisher from the list..."
+                  />
+                )}
+              />
+              <Autocomplete
+                multiple
+                id="genre-autocomplete"
+                options={genresList}
+                disableCloseOnSelect
+                filterSelectedOptions
+                getOptionLabel={(option) => (option.name ? option.name : "")}
+                isOptionEqualToValue={(option, value) =>
+                  option.name === value.name
+                }
+                onChange={handleGenresChange}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Genres"
+                    placeholder="Type name or select Genres from the list..."
+                  />
+                )}
+              />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  disableFuture
+                  label="Release Date"
+                  openTo="year"
+                  views={["year", "month", "day"]}
+                  inputFormat="yyyy/MM/dd"
+                  value={date}
+                  onChange={handleDateChange}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
+              <TextField
+                variant="outlined"
+                multiline
+                fullWidth
+                label="Description"
+                placeholder="Enter a description for this game..."
+                value={description}
+                onChange={handleDescriptionChange}
+              />
+            </Stack>
+          </Box>
         </DialogContent>
-        <TextField
-          variant="standard"
-          fullWidth
-          label="Title"
-          value={name}
-          onChange={handleNameChange}
-        />
         <DialogActions>
           <Button>Submit</Button>
-          <Button onClick={handleCLose}>Cancel</Button>
+          <Button onClick={() => handleCLose()}>Cancel</Button>
         </DialogActions>
       </Dialog>
     </Box>

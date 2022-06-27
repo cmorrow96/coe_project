@@ -35,14 +35,14 @@ async function createGenre(genre_name) {
 }
 
 async function updateGenre(genre_id, genre_name) {
-    return await prisma.genre.update({
-        where: {
-          id: parseInt(genre_id),
-        },
-        data: {
-          name: genre_name,
-        },
-      });
+  return await prisma.genre.update({
+    where: {
+      id: parseInt(genre_id),
+    },
+    data: {
+      name: genre_name,
+    },
+  });
 }
 
 module.exports = {

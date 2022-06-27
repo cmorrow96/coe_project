@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
 
 const FavouritesList = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const viewButton = () => {
     return (
@@ -63,14 +63,14 @@ const FavouritesList = () => {
   const [favs, setFavs] = useState([]);
   useEffect(() => {
     UserService.getFavourites(userID).then(async (data) => {
-        const status = data.status;
-        if(status === 200){
-            const favs = data.data;
-            setFavs(favs);
-        }else{
-            alert("Error, check favourites");
-            navigate(NavigationRoutes.Profile);
-        }
+      const status = data.status;
+      if (status === 200) {
+        const favs = data.data;
+        setFavs(favs);
+      } else {
+        alert("Error, check favourites");
+        navigate(NavigationRoutes.Profile);
+      }
     });
   }, []);
 

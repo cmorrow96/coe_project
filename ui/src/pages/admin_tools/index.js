@@ -9,7 +9,7 @@ const AdminTools = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Typography variant="h4">Manage records for game personnel and users</Typography>
+      <Typography sx={{mt:1, my:1}} variant="h4">Manage records for game creators, genres, and users</Typography>
       <Divider sx={{ borderBottomWidth: 3 }} />
       <Box sx={{ width: "100%" }}>
         <Tabs

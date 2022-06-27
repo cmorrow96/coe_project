@@ -24,15 +24,7 @@ const Games = () => {
         ></Box>
       </Grid>
       <Grid item xs={2}>
-        {/* <Box
-          sx={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        > */}
           <AddGame />
-        {/* </Box> */}
       </Grid>
       <Grid item xs={12}>
         <Box sx={{ display: "flex", justifyContent: "flex-start" }}>

@@ -4,6 +4,31 @@ import { DataTable } from "../../../components/index";
 const RecentGames = () => {
   const columns = [
     { field: "name", headerName: "Game Title", width: 250 },
+    {
+      field: "developer",
+      headerName: "Developer",
+      valueFormatter: (params) => params.value.name,
+      width: 250,
+    },
+    {
+      field: "publisher",
+      headerName: "Publisher",
+      valueFormatter: (params) => params.value.name,
+      width: 250,
+    },
+    {
+      field: "game_genre",
+      headerName: "Genres",
+      valueFormatter: (params) => {
+        const genreNames = params.value
+          .map((g) => {
+            return g.genre.name;
+          })
+          .toString();
+        return genreNames.replace(",", ", ");
+      },
+      width: 250,
+    },
     { field: "release_date", headerName: "Release Date", width: 250 },
     { field: "description", headerName: "Description", width: 250 },
   ];
@@ -25,11 +50,6 @@ const RecentGames = () => {
     });
   }, []);
 
-  return (
-    <DataTable
-      rows={games}
-      columns={columns}
-    ></DataTable>
-  );
+  return <DataTable rows={games} columns={columns}></DataTable>;
 };
 export default RecentGames;

@@ -30,7 +30,6 @@ const GamesList = () => {
 
   const columns = [
     { field: "name", headerName: "Game Title", width: 250 },
-    { field: "release_date", headerName: "Release Date", width: 250 },
     {
       field: "developer",
       headerName: "Developer",
@@ -47,13 +46,16 @@ const GamesList = () => {
       field: "game_genre",
       headerName: "Genres",
       valueFormatter: (params) => {
-        const genreNames = params.value.map((g) => {
-          return g.genre.name;
-        }).toString();
+        const genreNames = params.value
+          .map((g) => {
+            return g.genre.name;
+          })
+          .toString();
         return genreNames.replace(",", ", ");
       },
       width: 250,
     },
+    { field: "release_date", headerName: "Release Date", width: 250 },
     { field: "description", headerName: "Description", width: 250 },
     { field: "view", headerName: "", width: 80, renderCell: viewButton },
     { field: "edit", headerName: "", width: 80, renderCell: editButton },
