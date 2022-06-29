@@ -8,5 +8,4 @@ const routers = {
   healthRouter: require("./health"),
 };
 
-
 module.exports = routers;
