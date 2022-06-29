@@ -10,13 +10,17 @@ ENV DATABASE_URL=$DATABASE_URL
 ARG API_HOST
 ENV API_HOST=$API_HOST
 
-COPY package*.json ./
+# COPY package*.json ./
 
-USER node
+# USER node
+
+COPY --chown=node:node package.json .
 
 RUN npm install
 
 COPY --chown=node:node . .
+
+USER node
 
 EXPOSE 3001
 
