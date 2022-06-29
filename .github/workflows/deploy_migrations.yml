@@ -4,12 +4,8 @@ on:
   push:
     branches:
       - main
-#     paths:
-#        - 'migrations/**'
-      
-#defaults:
-#  run:
-#   working-directory: ./migrations
+    paths:
+       - 'migrations/**'
 
 jobs:
   migrate:
