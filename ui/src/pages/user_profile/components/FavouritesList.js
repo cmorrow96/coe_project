@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "../../../components";
-import { Box, Button, Dialog } from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Typography,
+} from "@mui/material";
 import { AuthContext } from "../../../contexts";
 import { UserService } from "../../../services";
-import { LoginUtils, FetchInstance } from "../../../utils";
+import { LoginUtils } from "../../../utils";
 import { useNavigate } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
 
@@ -26,6 +34,11 @@ const FavouritesList = () => {
       }
     });
   }, []);
+
+  const [name, setName] = useState("");
+  const handleName = (name) => {
+    setName(name);
+  };
 
   const viewButton = (params) => {
     return (
@@ -51,7 +64,10 @@ const FavouritesList = () => {
         size="small"
         onClick={(event) => {
           event.stopPropagation();
-          handleDelete(params);
+          const name = params.row.game.name;
+          setName(name);
+          console.log("name", name);
+          handleOpenDel();
         }}
       >
         Delete
@@ -59,18 +75,17 @@ const FavouritesList = () => {
     );
   };
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
+  const [openDel, setOpenDel] = useState(false);
+  const handleOpenDel = () => {
+    setOpenDel(true);
   };
-  const handleClose = () => {
-    setOpen(false);
+  const handleCloseDel = () => {
+    setOpenDel(false);
   };
 
   const handleDelete = (params) => {
     const id = params.row.id;
     const user_id = params.row.user_id;
-    handleOpen();
   };
 
   const columns = [
@@ -98,8 +113,22 @@ const FavouritesList = () => {
 
   return (
     <Box>
-      <Dialog open={open} onClose={handleClose}>
-        Hello
+      <Dialog
+        open={openDel}
+        onClose={handleCloseDel}
+        aria-labelledby="delete alert title"
+      >
+        <DialogTitle id="delete alert title">
+          {"Favourite Deletion"}
+        </DialogTitle>
+        <DialogContent>
+          <Typography>This will remove "{name}" from your favourites list.</Typography>
+          <Typography>Delete this favourite?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button color="error" onClick={() => handleDelete()}>Delete</Button>
+          <Button onClick={() => handleCloseDel()}>Cancel</Button>
+        </DialogActions>
       </Dialog>
       <DataTable rows={favs} columns={columns}></DataTable>
     </Box>

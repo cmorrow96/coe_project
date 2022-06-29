@@ -4,3 +4,4 @@ export { default as UserService } from "./user";
 export { default as DeveloperService } from "./developer";
 export { default as PublisherService } from "./publisher";
 export { default as GenreService } from "./genre";
+export { default as GameService } from "./game";

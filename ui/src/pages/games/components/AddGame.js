@@ -16,10 +16,19 @@ import { useNavigate } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { DeveloperService, PublisherService, GenreService } from "../../../services";
+import {
+  DeveloperService,
+  PublisherService,
+  GenreService,
+  GameService,
+} from "../../../services";
+import { LoginUtils } from "../../../utils";
+import { AuthContext } from "../../../contexts";
 
 const AddGame = () => {
   const navigate = useNavigate();
+  const { state } = AuthContext.useLogin();
+  const userID = LoginUtils.getUserID(state.accessToken);
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -45,7 +54,6 @@ const AddGame = () => {
     DeveloperService.getDevelopers().then(async (data) => {
       const status = data.status;
       if (status == 200) {
-        console.log("dev", data);
         const devArray = data.data;
         setDevs(devArray);
       } else {
@@ -65,7 +73,6 @@ const AddGame = () => {
     PublisherService.getPublishers().then(async (data) => {
       const status = data.status;
       if (status == 200) {
-        console.log("pub", data);
         const pubArray = data.data;
         setPubs(pubArray);
       } else {
@@ -86,7 +93,6 @@ const AddGame = () => {
     GenreService.getGenres().then(async (data) => {
       const status = data.status;
       if (status == 200) {
-        console.log("genres", data);
         const genreArray = data.data;
         setGenresList(genreArray);
       } else {
@@ -106,7 +112,9 @@ const AddGame = () => {
     setDescription(event.target.value);
   };
 
-  // const click = () => {};
+  const handleSubmit = () => {
+    GameService.createGame(userID, name, dev, pub, date, description);
+  };
 
   useEffect(() => {
     getDevelopers();
@@ -236,7 +244,7 @@ const AddGame = () => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button>Submit</Button>
+          <Button onClick={() => handleSubmit()}>Submit</Button>
           <Button onClick={() => handleCLose()}>Cancel</Button>
         </DialogActions>
       </Dialog>

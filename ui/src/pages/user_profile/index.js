@@ -22,12 +22,13 @@ import { LoginUtils } from "../../utils";
 import { FavouritesList } from "./components";
 
 const UserProfile = () => {
-  const [tUsername, setTUsername] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [forename, setForename] = useState("");
   const [surname, setSurname] = useState("");
   const [aboutMe, setAboutMe] = useState("");
+  
+  const { state } = AuthContext.useLogin();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const handleDeleteOpen = () => {
@@ -42,14 +43,12 @@ const UserProfile = () => {
     setTab(newTab);
   };
 
-  const { state } = AuthContext.useLogin();
 
   useEffect(() => {
     const loggedIn = state.accessToken && !LoginUtils.isTokenExpired(state);
     const username = loggedIn
       ? LoginUtils.getUsername(state.accessToken)
       : null;
-    setTUsername(username);
     setUsername(username);
     getUserData(LoginUtils.getUserID(state.accessToken));
   }, []);
@@ -67,7 +66,7 @@ const UserProfile = () => {
   return (
     <Box sx={{ width: "100%" }}>
       <Typography sx={{ mt: 1, my: 1 }} variant="h4">
-        User Profile Section - {tUsername}
+        User Profile Section - {username}
       </Typography>
       <Divider sx={{ borderBottomWidth: 3 }} />
       <Box sx={{ width: "100%" }}>
@@ -95,7 +94,6 @@ const UserProfile = () => {
               sx={{
                 mt: 2,
               }}
-              onChange={(event) => setUsername(event.target.value)}
               value={username}
             ></TextField>
             <TextField
@@ -103,6 +101,7 @@ const UserProfile = () => {
               id="outlined-required"
               label="Email"
               color="secondary"
+              onChange={(event) => setEmail(event.target.value)}
               value={email}
             ></TextField>
             <TextField
@@ -145,7 +144,7 @@ const UserProfile = () => {
                 sx={{ mt: 1 }}
                 // onClick={()}
               >
-                Update
+                Update Details
               </Button>
             </Grid>
             <Grid item xs={2} />
@@ -154,6 +153,7 @@ const UserProfile = () => {
                 style={{ width: 175 }}
                 size="medium"
                 variant="contained"
+                color="error"
                 sx={{ mt: 1 }}
                 onClick={() => handleDeleteOpen()}
               >
@@ -167,16 +167,17 @@ const UserProfile = () => {
               aria-describedby="delete alert description"
             >
               <DialogTitle id="delete alert title">
-                {"User account deletion"}
+                {username} account deletion
               </DialogTitle>
               <DialogContent>
-                <DialogContentText id="delete alert description">
+                <Typography>
                   This will delete your user account and all associated
-                  information. Delete your account?
-                </DialogContentText>
+                  information.
+                </Typography>
+                <Typography>Delete your account?</Typography>
               </DialogContent>
               <DialogActions>
-                <Button>Delete</Button>
+                <Button color="error">Delete</Button>
                 <Button onClick={() => handleDeleteClose()}>Cancel</Button>
               </DialogActions>
             </Dialog>

@@ -53,13 +53,13 @@ async function getGames(search) {
   });
 }
 
-async function createGame(name, release_date, description) {
+async function createGame(user_id, name, dev_id, pub_id, release_date, description) {
   return await prisma.game.create({
     data: {
-      created_by_id: 1,
+      created_by_id: user_id,
       name: name,
-      developer_id: 1,
-      publisher_id: 1,
+      developer_id: dev_id,
+      publisher_id: pub_id,
       release_date: new Date(release_date),
       description: description,
     },
