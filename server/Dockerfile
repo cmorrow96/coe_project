@@ -20,7 +20,7 @@ RUN npm install
 
 COPY --chown=node:node . .
 
-USER node
+# USER node
 
 EXPOSE 3001
 
