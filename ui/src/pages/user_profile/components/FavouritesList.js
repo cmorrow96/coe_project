@@ -1,16 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { DataTable } from "../../../components";
-import { Button } from "@mui/material";
+import { Box, Button, Dialog } from "@mui/material";
 import { AuthContext } from "../../../contexts";
 import { UserService } from "../../../services";
-import { LoginUtils } from "../../../utils";
+import { LoginUtils, FetchInstance } from "../../../utils";
 import { useNavigate } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
 
 const FavouritesList = () => {
   const navigate = useNavigate();
 
-  const viewButton = () => {
+  const { state } = AuthContext.useLogin();
+  const userID = LoginUtils.getUserID(state.accessToken);
+
+  const [favs, setFavs] = useState([]);
+  useEffect(() => {
+    UserService.getFavourites(userID).then(async (data) => {
+      const status = data.status;
+      if (status === 200) {
+        const favs = data.data;
+        setFavs(favs);
+      } else {
+        alert("Error, check favourites");
+        navigate(NavigationRoutes.Profile);
+      }
+    });
+  }, []);
+
+  const viewButton = (params) => {
     return (
       <Button variant="outlined" color="primary" size="small">
         View
@@ -18,7 +35,7 @@ const FavouritesList = () => {
     );
   };
 
-  const editButton = () => {
+  const editButton = (params) => {
     return (
       <Button variant="outlined" color="secondary" size="small">
         Edit
@@ -26,12 +43,34 @@ const FavouritesList = () => {
     );
   };
 
-  const deleteButton = () => {
+  const deleteButton = (params) => {
     return (
-      <Button variant="outlined" color="error" size="small">
+      <Button
+        variant="outlined"
+        color="error"
+        size="small"
+        onClick={(event) => {
+          event.stopPropagation();
+          handleDelete(params);
+        }}
+      >
         Delete
       </Button>
     );
+  };
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleDelete = (params) => {
+    const id = params.row.id;
+    const user_id = params.row.user_id;
+    handleOpen();
   };
 
   const columns = [
@@ -57,23 +96,13 @@ const FavouritesList = () => {
     { field: "delete", headerName: "", width: 80, renderCell: deleteButton },
   ];
 
-  const { state } = AuthContext.useLogin();
-  const userID = LoginUtils.getUserID(state.accessToken);
-
-  const [favs, setFavs] = useState([]);
-  useEffect(() => {
-    UserService.getFavourites(userID).then(async (data) => {
-      const status = data.status;
-      if (status === 200) {
-        const favs = data.data;
-        setFavs(favs);
-      } else {
-        alert("Error, check favourites");
-        navigate(NavigationRoutes.Profile);
-      }
-    });
-  }, []);
-
-  return <DataTable rows={favs} columns={columns}></DataTable>;
+  return (
+    <Box>
+      <Dialog open={open} onClose={handleClose}>
+        Hello
+      </Dialog>
+      <DataTable rows={favs} columns={columns}></DataTable>
+    </Box>
+  );
 };
 export default FavouritesList;

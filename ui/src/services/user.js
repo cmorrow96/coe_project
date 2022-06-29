@@ -3,9 +3,6 @@ import { FetchInstance } from "../utils/";
 const getUser = async (userID) => {
   const response = await FetchInstance(`users/${userID}`, {
     method: "GET",
-    headers: {
-      "content-type": "application/json",
-    },
   });
 
   const data = await response.json();
@@ -15,14 +12,17 @@ const getUser = async (userID) => {
 const getFavourites = async (userID) => {
   const response = await FetchInstance(`users/${userID}/favourites`, {
     method: "GET",
-    headers: {
-      "content-type": "application/json",
-    },
   });
 
   const data = await response.json();
   return { data, status: response.status };
 };
+
+const deleteFavourite = async (userID, favID) => {
+  const response = await FetchInstance(`users/${userID}/favourites/${favID}`, {
+    method: "DELETE"
+  })
+}
 
 // const getFavouritesNEW = async (userID) => {
 //     const response = await FetchInstance(`users/${userID}/favourites`, {

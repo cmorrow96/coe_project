@@ -8,6 +8,7 @@ const {
   userRouter,
   gameRouter,
   authRouter,
+  healthRouter,
 } = require("./routers/index");
 const { verifyToken } = require("./middleware/auth");
 const app = express();
@@ -24,11 +25,14 @@ app.use("/publishers", publisherRouter);
 app.use("/users", userRouter);
 app.use("/games", gameRouter);
 app.use("/auth", authRouter);
+app.use("/health", healthRouter);
 
 app.use((err, req, res, next) => {
   res.status(500).send(err);
 });
 
-app.listen(3001, () => {
+const host = process.env.API_HOST ? process.env.API_HOST : 'localhost'
+
+app.listen(3001, host, () => {
   console.log("Server running...");
 });

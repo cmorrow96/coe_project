@@ -102,6 +102,7 @@ async function getGamesFromFavourites(user_id) {
     select: {
       id: true,
       game: true,
+      user_id: true,
       game_id: true,
       rating: true,
       favourite_status: true

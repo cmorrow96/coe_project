@@ -10,7 +10,7 @@ const Home = () => {
         flexFlow: "column nowrap",
       }}
     >
-      <h1>Welcome to LookingForGame.com</h1>
+      <h1>Welcome to LookingForGame.co.uk</h1>
       <h3>Recently added games...</h3>
       <RecentGames/>
       <h3>Recent users...</h3>
