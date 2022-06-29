@@ -1,8 +1,8 @@
 FROM node:16-alpine
 
-RUN mkdir -p /app/node_modules && chown -R node:node /app
+RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 
-WORKDIR /app
+WORKDIR /home/node/app
 
 ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
