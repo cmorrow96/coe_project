@@ -12,7 +12,7 @@ ENV API_HOST=$API_HOST
 
 # COPY package*.json ./
 
-# USER node
+USER node
 
 COPY --chown=node:node package.json .
 
