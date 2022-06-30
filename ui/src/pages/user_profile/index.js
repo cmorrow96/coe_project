@@ -3,23 +3,22 @@ import {
   Box,
   Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
-  Stack,
   Grid,
+  Stack,
   Tab,
   Tabs,
-  Typography,
   TextField,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
+  Typography,
 } from "@mui/material";
 import { AuthContext } from "../../contexts";
-import { UserService, TokenService } from "../../services";
+import { UserService } from "../../services";
 import { LoginUtils } from "../../utils";
-import { FavouritesList } from "./components";
+import { AddFavourite, FavouritesList } from "./components";
 
 const UserProfile = () => {
   const [username, setUsername] = useState("");
@@ -27,7 +26,7 @@ const UserProfile = () => {
   const [forename, setForename] = useState("");
   const [surname, setSurname] = useState("");
   const [aboutMe, setAboutMe] = useState("");
-  
+
   const { state } = AuthContext.useLogin();
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -42,7 +41,6 @@ const UserProfile = () => {
   const handleChange = (event, newTab) => {
     setTab(newTab);
   };
-
 
   useEffect(() => {
     const loggedIn = state.accessToken && !LoginUtils.isTokenExpired(state);
@@ -185,8 +183,22 @@ const UserProfile = () => {
         </Container>
       )}
       {tab === "Favourites List" && (
-        <Box justifyContent="center" alignItems="center" sx={{ mt: 2 }}>
-          <FavouritesList />
+        <Box justifyContent="center" alignItems="center" sx={{ }}>
+          <Grid
+            container
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              direction: "row",
+            }}
+          >
+            <Grid item xs={2}>
+              <AddFavourite />
+            </Grid>
+            <Grid item xs={12}>
+              <FavouritesList />
+            </Grid>
+          </Grid>
         </Box>
       )}
     </Box>

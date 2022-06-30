@@ -84,7 +84,6 @@ const AddGame = () => {
 
   const [genres, setGenres] = useState([]);
   const handleGenresChange = (event, newGenres) => {
-    console.log(newGenres);
     setGenres(newGenres);
   };
 
@@ -128,7 +127,7 @@ const AddGame = () => {
         display: "flex",
         flexDirection: "column",
         m: "auto",
-        p: 3,
+        p: 2,
       }}
     >
       <Button variant="contained" color="primary" onClick={handleOpen}>

@@ -13,7 +13,7 @@ const Games = () => {
       spacing={2}
     >
       <Grid item xs={2}>
-        <h2>Game Search</h2>
+        <h1>Game Search</h1>
       </Grid>
       <Grid item xs={8}>
         <Box

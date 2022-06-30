@@ -16,7 +16,6 @@ fetchIntercept.register({
         },
       };
     }
-
     return [url, config];
   },
   response: function (response) {

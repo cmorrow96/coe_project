@@ -65,8 +65,7 @@ const FavouritesList = () => {
         onClick={(event) => {
           event.stopPropagation();
           const name = params.row.game.name;
-          setName(name);
-          console.log("name", name);
+          handleName(name);
           handleOpenDel();
         }}
       >
@@ -86,6 +85,7 @@ const FavouritesList = () => {
   const handleDelete = (params) => {
     const id = params.row.id;
     const user_id = params.row.user_id;
+    UserService.deleteFavourite(id, user_id);
   };
 
   const columns = [
@@ -122,11 +122,15 @@ const FavouritesList = () => {
           {"Favourite Deletion"}
         </DialogTitle>
         <DialogContent>
-          <Typography>This will remove "{name}" from your favourites list.</Typography>
+          <Typography>
+            This will remove "{name}" from your favourites list.
+          </Typography>
           <Typography>Delete this favourite?</Typography>
         </DialogContent>
         <DialogActions>
-          <Button color="error" onClick={() => handleDelete()}>Delete</Button>
+          <Button color="error" onClick={() => handleDelete()}>
+            Delete
+          </Button>
           <Button onClick={() => handleCloseDel()}>Cancel</Button>
         </DialogActions>
       </Dialog>

@@ -41,4 +41,5 @@ const deleteFavourite = async (userID, favID) => {
 export default {
   getUser,
   getFavourites,
+  deleteFavourite,
 };
