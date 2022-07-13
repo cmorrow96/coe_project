@@ -95,7 +95,7 @@ const AddGame = () => {
         const genreArray = data.data;
         setGenresList(genreArray);
       } else {
-        alert("Error, check publishers");
+        alert("Error, check genres");
         navigate(NavigationRoutes.Games);
       }
     });
@@ -125,9 +125,7 @@ const AddGame = () => {
     <Box
       sx={{
         display: "flex",
-        flexDirection: "column",
-        m: "auto",
-        p: 2,
+        justifyContent: "flex-end"
       }}
     >
       <Button variant="contained" color="primary" onClick={handleOpen}>
@@ -136,8 +134,8 @@ const AddGame = () => {
       <Dialog
         open={open}
         onClose={handleCLose}
-        aria-labelledby="add game title"
-        aria-describedby="add game description"
+        aria-labelledby="add-game-title"
+        aria-describedby="add-game-description"
         keepMounted
       >
         <DialogContent>
@@ -150,7 +148,7 @@ const AddGame = () => {
               width: 500,
             }}
           >
-            <DialogTitle id="add-game-title">{"Add Game"}</DialogTitle>
+            <DialogTitle id="add-game-title">Add Game</DialogTitle>
             <DialogContentText id="add-game-description">
               Please add details of a new game in the boxes below:
             </DialogContentText>

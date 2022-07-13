@@ -20,7 +20,7 @@ const SearchBar = () => {
         alignItems: "center",
       }}
     >
-      <SearchIcon sx={{ marginRight: "5px" }}></SearchIcon>
+      <SearchIcon sx={{ mr: 1 }}></SearchIcon>
       <TextField
         type="text"
         variant="outlined"
@@ -39,18 +39,16 @@ const SearchBar = () => {
         }}
       />
       <Button
-        sx={{
-          minWidth: "20px",
-          minHeight: "20px",
-        }}
+        size="small"
         variant="contained"
+        color="secondary"
         onClick={() => {
           searchText.current.value = "";
           setUserInput("");
           handleSearch("");
         }}
       >
-        X
+        Clear
       </Button>
     </Box>
   );

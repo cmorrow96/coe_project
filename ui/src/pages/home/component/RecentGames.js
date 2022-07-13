@@ -3,7 +3,7 @@ import { DataTable } from "../../../components/index";
 
 const RecentGames = () => {
   const columns = [
-    { field: "name", headerName: "Game Title", width: 250 },
+    { field: "name", headerName: "Title", width: 250 },
     {
       field: "developer",
       headerName: "Developer",

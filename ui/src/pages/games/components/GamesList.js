@@ -29,7 +29,7 @@ const GamesList = () => {
   };
 
   const columns = [
-    { field: "name", headerName: "Game Title", width: 250 },
+    { field: "name", headerName: "Title", width: 250 },
     {
       field: "developer",
       headerName: "Developer",

@@ -9,6 +9,15 @@ const getUser = async (userID) => {
   return { data, status: response.status };
 };
 
+const getUsers = async () => {
+  const response = await FetchInstance(`users/`, {
+    method: "GET",
+  });
+
+  const data = await response.json();
+  return { data, status: response.status };
+};
+
 const getFavourites = async (userID) => {
   const response = await FetchInstance(`users/${userID}/favourites`, {
     method: "GET",
@@ -40,6 +49,7 @@ const deleteFavourite = async (userID, favID) => {
 
 export default {
   getUser,
+  getUsers,
   getFavourites,
   deleteFavourite,
 };

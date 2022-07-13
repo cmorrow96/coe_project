@@ -1,5 +1,5 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { RecentGames, RecentUsers } from "./component/index";
 
 const Home = () => {
@@ -10,12 +10,18 @@ const Home = () => {
         flexFlow: "column nowrap",
       }}
     >
-      <h1>Welcome to LookingForGame.co.uk</h1>
-      <h3>Recently added games...</h3>
-      <RecentGames/>
-      <h3>Recent users...</h3>
-      <RecentUsers/>
+      <Typography variant="h2" sx={{ fontFamily: "Serif", mt: 1, mb: 2 }}>
+        Welcome to LookingForGame.co.uk
+      </Typography>
+      <Typography variant="h5" sx={{ fontFamily: "Serif" }}>
+        Recently added games...
+      </Typography>
+      <RecentGames />
+      <Typography variant="h5" sx={{ fontFamily: "Serif", mt: 3 }}>
+        Recently joined users...
+      </Typography>
+      <RecentUsers />
     </Box>
   );
-}
+};
 export default Home;

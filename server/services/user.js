@@ -33,7 +33,23 @@ async function getUsers(search) {
       },
     };
   }
-  return await prisma.user.findMany(filters);
+  return await prisma.user.findMany({
+    select: {
+      id: true,
+      user_type_id: true,
+      username: true,
+      email_address: true,
+      forename: true,
+      surname: true,
+      about_me: true,
+      user_type: {
+        select: {
+          description: true,
+        },
+      },
+    },
+    ...filters,
+  });
 }
 
 async function createUser(
@@ -105,7 +121,11 @@ async function getGamesFromFavourites(user_id) {
       user_id: true,
       game_id: true,
       rating: true,
-      favourite_status: true
+      favourite_status: {
+        select: {
+          type: true,
+        },
+      },
     },
     ...filters,
   });

@@ -91,12 +91,12 @@ const CustomAppBar = () => {
   return (
     <AppBar sx={{ bgcolor: "green" }} position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters variant="regular">
           <Box
             sx={{
-              flexGrow: 0,
-              mr: 5,
+              flexGrow: 1,
               display: { xs: "none", md: "flex" },
+              justifyContent: "flex-start",
             }}
           >
             <Button
@@ -109,10 +109,10 @@ const CustomAppBar = () => {
                 variant="h6"
                 noWrap
                 sx={{
-                  fontFamily: "Impact",
-                  fontSize: 24,
-                  fontWeight: 500,
-                  letterSpacing: ".3rem",
+                  fontFamily: "Serif",
+                  fontSize: 36,
+                  fontWeight: 1000,
+                  letterSpacing: 1,
                   color: "white",
                   textDecoration: "none",
                   textTransform: "none",
@@ -125,8 +125,9 @@ const CustomAppBar = () => {
 
           <Box
             sx={{
-              flexGrow: 0,
+              flexGrow: 1,
               display: { xs: "flex", md: "none" },
+              justifyContent: "flex-start",
             }}
           >
             <IconButton
@@ -168,7 +169,7 @@ const CustomAppBar = () => {
                   <Typography
                     textTransform="none"
                     textAlign="center"
-                    sx={{ fontFamily: "impact" }}
+                    sx={{ fontFamily: "Serif" }}
                   >
                     {display}
                   </Typography>
@@ -181,6 +182,7 @@ const CustomAppBar = () => {
             sx={{
               flexGrow: 1,
               display: { xs: "flex", md: "none" },
+              justifyContent: "flex-start",
             }}
           >
             <Button
@@ -193,13 +195,11 @@ const CustomAppBar = () => {
                 variant="h6"
                 noWrap
                 sx={{
-                  mr: 2,
                   display: { xs: "flex", md: "none" },
-                  flexGrow: 1,
-                  fontFamily: "impact",
-                  fontSize: 24,
-                  fontWeight: 500,
-                  letterSpacing: ".3rem",
+                  fontFamily: "Serif",
+                  fontSize: 32,
+                  fontWeight: 1000,
+                  letterSpacing: 2,
                   color: "white",
                   textDecoration: "none",
                   textTransform: "none",
@@ -210,7 +210,7 @@ const CustomAppBar = () => {
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" }, justifyContent: "center" }}>
             {pages.map(({ display, nav }) => (
               <Button
                 disableRipple
@@ -219,12 +219,11 @@ const CustomAppBar = () => {
                   navigate(nav);
                 }}
                 sx={{
-                  my: 2,
                   color: "white",
                   display: "block",
                   textTransform: "none",
-                  fontFamily: "impact",
-                  fontSize: 16,
+                  fontFamily: "Serif",
+                  fontSize: 24,
                 }}
               >
                 {display}
@@ -232,16 +231,16 @@ const CustomAppBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" }, justifyContent: "flex-end", mr: 5 }}>
             <SearchBar placeholder="Search Games..." onKeyPress />
           </Box>
 
-          <Box sx={{ flexGrow: 0, mr: 5, display: { xs: "none", md: "flex" } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, justifyContent: "flex-end", mr: 5 }}>
             <SearchBar placeholder="Search Games..." onKeyPress />
           </Box>
 
           {isLoggedIn ? (
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, display: "flex", justifyContent: "flex-end" }}>
               <Stack direction="row">
                 <Tooltip title="Open User Settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -271,18 +270,29 @@ const CustomAppBar = () => {
                         handleCloseUserMenu();
                       }}
                     >
-                      <Typography textAlign="center">{display}</Typography>
+                      <Typography
+                        textAlign="center"
+                        sx={{ fontFamily: "Serif" }}
+                      >
+                        {display}
+                      </Typography>
                     </MenuItem>
                   ))}
-                  <MenuItem key="logout" onClick={logout}>
+                  <MenuItem
+                    textAlign="center"
+                    sx={{ fontFamily: "Serif" }}
+                    key="logout"
+                    onClick={logout}
+                  >
                     Logout
                   </MenuItem>
                 </Menu>
                 <Typography
+                  display="flex"
+                  alignItems="center"
                   sx={{
-                    mx: 1,
-                    my: 1,
-                    fontFamily: "impact",
+                    fontFamily: "Serif",
+                    ml: 1,
                   }}
                 >
                   {username}
@@ -290,12 +300,12 @@ const CustomAppBar = () => {
               </Stack>
             </Box>
           ) : (
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, display: "flex", justifyContent: "flex-end" }}>
               <Stack direction="row">
                 <Button
                   variant="contained"
                   color="secondary"
-                  sx={{ my: 0, color: "white", display: "block" }}
+                  sx={{ mr: 1, color: "white", display: "block" }}
                   onClick={() => navigate(NavigationRoutes.Login)}
                 >
                   Login
@@ -303,7 +313,7 @@ const CustomAppBar = () => {
                 <Button
                   variant="contained"
                   color="secondary"
-                  sx={{ my: 0, color: "white", display: "block" }}
+                  sx={{ color: "white", display: "block" }}
                   onClick={() => navigate(NavigationRoutes.Signup)}
                 >
                   Signup

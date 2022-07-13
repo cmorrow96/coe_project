@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
   res.status(500).send(err);
 });
 
-const host = process.env.API_HOST ? process.env.API_HOST : "localhost";
+// const host = process.env.API_HOST ? process.env.API_HOST : "localhost";
 
 app.listen(3001, () => {
   console.log("Server running...");

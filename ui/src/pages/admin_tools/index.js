@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Box, Typography, Divider, Tabs, Tab } from "@mui/material";
+import { DevList, PubList, GenreList, UserList } from "./components";
 
 const AdminTools = () => {
   const [tab, setTab] = useState("Developers");
@@ -9,7 +10,9 @@ const AdminTools = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Typography sx={{mt:1, my:1}} variant="h4">Manage records for game creators, genres, and users</Typography>
+      <Typography sx={{ fontFamily: "Serif", mt: 1, my: 1 }} variant="h3">
+        Manage records for game personnel, genres, and users
+      </Typography>
       <Divider sx={{ borderBottomWidth: 3 }} />
       <Box sx={{ width: "100%" }}>
         <Tabs
@@ -26,22 +29,22 @@ const AdminTools = () => {
       </Box>
       {tab === "Developers" && (
         <Box>
-          <h1>test</h1>
+          <DevList />
         </Box>
       )}
       {tab === "Publishers" && (
         <Box>
-          <h1>test</h1>
+          <PubList />
         </Box>
       )}
       {tab === "Genres" && (
         <Box>
-          <h1>test</h1>
+          <GenreList />
         </Box>
       )}
       {tab === "Users" && (
         <Box>
-          <h1>test</h1>
+          <UserList />
         </Box>
       )}
     </Box>

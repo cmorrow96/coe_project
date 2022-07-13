@@ -22,17 +22,25 @@ const FavouritesList = () => {
   const userID = LoginUtils.getUserID(state.accessToken);
 
   const [favs, setFavs] = useState([]);
-  useEffect(() => {
+  const handleFavs = (favs) => {
+    setFavs(favs);
+  };
+
+  const getFavourites = () => {
     UserService.getFavourites(userID).then(async (data) => {
       const status = data.status;
       if (status === 200) {
         const favs = data.data;
-        setFavs(favs);
+        handleFavs(favs);
       } else {
         alert("Error, check favourites");
         navigate(NavigationRoutes.Profile);
       }
     });
+  };
+
+  useEffect(() => {
+    getFavourites();
   }, []);
 
   const [name, setName] = useState("");
@@ -91,18 +99,14 @@ const FavouritesList = () => {
   const columns = [
     {
       field: "game",
-      headerName: "Game Title",
-      valueFormatter: (params) => {
-        return params.value.name;
-      },
+      headerName: "Title",
+      valueFormatter: (params) => params.value.name,
       width: 250,
     },
     {
       field: "favourite_status",
       headerName: "Favourite Status",
-      valueFormatter: (params) => {
-        return params.value.type;
-      },
+      valueFormatter: (params) => params.value.type,
       width: 250,
     },
     { field: "rating", headerName: "Rating", width: 250 },

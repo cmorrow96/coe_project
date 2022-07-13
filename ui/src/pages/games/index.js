@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { GamesList, AddGame } from "./components";
 
 const Games = () => {
@@ -10,21 +10,14 @@ const Games = () => {
       justifyContent="space-evenly"
       alignItems="center"
       alignContent="center"
-      spacing={2}
     >
-      <Grid item xs={2}>
-        <h1>Game Search</h1>
-      </Grid>
-      <Grid item xs={8}>
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-          }}
-        ></Box>
+      <Grid item xs={10}>
+        <Typography variant="h2" sx={{ fontFamily: "Serif", justifyContent: "flex-start" }}>
+          Game Search
+        </Typography>
       </Grid>
       <Grid item xs={2}>
-          <AddGame />
+        <AddGame />
       </Grid>
       <Grid item xs={12}>
         <Box sx={{ display: "flex", justifyContent: "flex-start" }}>

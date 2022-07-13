@@ -29,7 +29,7 @@ jobs:
     - name: Build and push image to Lightsail
       id: build-image
       run: |
-        docker build --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" --build-arg API_HOST="${{ secrets.API_HOST }}" -t lookingforgame-api:latest .
+        docker build --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" -t lookingforgame-api:latest .
         aws lightsail push-container-image --region eu-west-1 --service-name ${{ secrets.API_NAME }} --label lookingforgame-api --image lookingforgame-api:latest
     - name: Deploy Service
       run: |

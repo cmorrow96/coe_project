@@ -19,5 +19,15 @@ services:
       - ./migrations/base:/flyway/sql
     depends_on:
       - db
+  api:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.local
+    volumes:
+      - ./server:/app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - flyway
 volumes:
-  db: 
+  db:

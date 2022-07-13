@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Dialog,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Divider,
+  TextField,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { NavigationRoutes } from "../../../constants";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
   DeveloperService,
   PublisherService,
@@ -27,10 +35,27 @@ const AddFavourite = () => {
     setOpen(false);
   };
 
-  useEffect(() => {
-    
-  }, []);
+  const [game, setGame] = useState("");
+  const handleGameChange = (event, game) => {
+    setGame(game);
+  };
 
+  const [games, setGames] = useState([]);
+  const handleGames = (games) => {
+    setGames(games);
+  };
+
+  useEffect(() => {
+    GameService.getGames().then(async (data) => {
+      const status = data.status;
+      if (status === 200) {
+        const games = data.data;
+        handleGames(games);
+      } else {
+        alert("Error, check favourites");
+      }
+    });
+  }, []);
 
   return (
     <Box
@@ -44,6 +69,49 @@ const AddFavourite = () => {
       <Button variant="contained" color="primary" onClick={handleOpen}>
         Add Favourite
       </Button>
+      <Dialog
+        open={open}
+        onClose={handleCLose}
+        aria-labelledby="add-favourite"
+        aria-describedby="add-favourite-description"
+        keepMounted
+      >
+        <DialogContent>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              m: "auto",
+              p: 1,
+              width: 500,
+            }}
+          >
+            <DialogTitle id="add-game-title">Add Game</DialogTitle>
+            <DialogContentText id="add-favourite-description">
+              Select a favourite by typing or selecting from the dropdown. You
+              can also set a status and rating:
+            </DialogContentText>
+            <Divider sx={{ my: 1 }} />
+            <Autocomplete
+              id="games-autocomplete"
+              options={games}
+              getOptionLabel={(option) => (option.name ? option.name : "")}
+              isOptionEqualToValue={(option, value) =>
+                option.name === value.name
+              }
+              onChange={handleGameChange}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="outlined"
+                  label="Game"
+                  placeholder="Type game title or select from list..."
+                />
+              )}
+            />
+          </Box>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };
