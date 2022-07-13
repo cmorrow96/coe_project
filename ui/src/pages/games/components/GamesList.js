@@ -4,6 +4,8 @@ import { SearchContext } from "../../../contexts";
 import { Button } from "@mui/material";
 
 const GamesList = () => {
+  
+
   const viewButton = () => {
     return (
       <Button variant="outlined" color="primary" size="small">
