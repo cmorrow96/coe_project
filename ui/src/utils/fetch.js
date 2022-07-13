@@ -2,7 +2,13 @@ import fetchIntercept from "fetch-intercept";
 import { LoginService, TokenService } from "../services";
 import LoginUtils from "./login";
 
-const configureUrl = (url) => ` http://localhost:3001/${url}`;
+const configureUrl = (url) => `${getApiUrl()}${url}`;
+
+export const getApiUrl = () => {
+  return (
+      process.env.REACT_APP_API_URL || ("http://localhost:3001/")
+  );
+};
 
 fetchIntercept.register({
   request: function (url, config) {

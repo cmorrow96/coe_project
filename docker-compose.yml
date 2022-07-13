@@ -16,7 +16,7 @@ services:
     command: -url=jdbc:postgresql://db/coeproject -schemas=public -user=postgres
       -password=password -connectRetries=5 migrate
     volumes:
-      - ./migrations/base:/flyway/sql
+      - ./migrations:/flyway/sql
     depends_on:
       - db
   api:
@@ -27,6 +27,8 @@ services:
       - ./server:/app
     ports:
       - "3001:3001"
+    environment:
+      DATABASE_URL: postgresql://postgres:password@db:5432/coeproject?schema=public
     depends_on:
       - flyway
 volumes:

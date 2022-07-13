@@ -31,7 +31,9 @@ const SearchBar = () => {
         onKeyPress={(event) => {
           if (event.key === "Enter") {
             handleSearch(userInput);
-            navigate(NavigationRoutes.Games);
+            if (userInput != "") {
+              navigate(NavigationRoutes.Games);
+            }
           }
         }}
         sx={{
