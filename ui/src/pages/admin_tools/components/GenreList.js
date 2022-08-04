@@ -20,7 +20,7 @@ const GenreList = () => {
   const getGenres = async () => {
     GenreService.getGenres().then(async (data) => {
       const status = data.status;
-      if (status == 200) {
+      if (status === 200) {
         const genreArray = data.data;
         setGenres(genreArray);
       } else {
@@ -32,7 +32,7 @@ const GenreList = () => {
 
   useEffect(() => {
     getGenres();
-  }, []);
+  });
 
   const editButton = () => {
     return (

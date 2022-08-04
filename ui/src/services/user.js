@@ -33,20 +33,6 @@ const deleteFavourite = async (userID, favID) => {
   })
 }
 
-// const getFavouritesNEW = async (userID) => {
-//     const response = await FetchInstance(`users/${userID}/favourites`, {
-//       method: "GET",
-//       headers: {
-//         "content-type": "application/json",
-//       },
-//     });
-
-//     const data = await response.json();
-//     return { data, status: response.status }
-//   };
-
-//   const { data, status } = await FavouriteService.getFavouritesNEW(1);
-
 export default {
   getUser,
   getUsers,

@@ -32,7 +32,7 @@ const UserList = () => {
 
   useEffect(() => {
     getUsers();
-  }, []);
+  });
 
   const editButton = () => {
     return (

@@ -20,7 +20,7 @@ const DevList = () => {
   const getDevelopers = async () => {
     DeveloperService.getDevelopers().then(async (data) => {
       const status = data.status;
-      if (status == 200) {
+      if (status === 200) {
         const devArray = data.data;
         setDevs(devArray);
       } else {
@@ -32,7 +32,7 @@ const DevList = () => {
 
   useEffect(() => {
     getDevelopers();
-  }, []);
+  });
 
   const editButton = () => {
     return (

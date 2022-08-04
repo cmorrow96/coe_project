@@ -11,11 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { NavigationRoutes } from "../../../constants";
 import {
-  DeveloperService,
-  PublisherService,
-  GenreService,
   GameService,
 } from "../../../services";
 import { LoginUtils } from "../../../utils";
@@ -55,7 +51,7 @@ const AddFavourite = () => {
         alert("Error, check favourites");
       }
     });
-  }, []);
+  });
 
   return (
     <Box

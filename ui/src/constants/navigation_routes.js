@@ -1,6 +1,5 @@
 export default {
   About: "/about",
-  Comments: "/comments",
   Games: "/games",
   AdminTools: "/admintools",
   Home: "/",

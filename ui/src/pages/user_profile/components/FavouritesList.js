@@ -41,7 +41,7 @@ const FavouritesList = () => {
 
   useEffect(() => {
     getFavourites();
-  }, []);
+  });
 
   const [name, setName] = useState("");
   const handleName = (name) => {

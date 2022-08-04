@@ -53,7 +53,7 @@ const AddGame = () => {
   const getDevelopers = async () => {
     DeveloperService.getDevelopers().then(async (data) => {
       const status = data.status;
-      if (status == 200) {
+      if (status === 200) {
         const devArray = data.data;
         setDevs(devArray);
       } else {
@@ -72,7 +72,7 @@ const AddGame = () => {
   const getPublishers = async () => {
     PublisherService.getPublishers().then(async (data) => {
       const status = data.status;
-      if (status == 200) {
+      if (status === 200) {
         const pubArray = data.data;
         setPubs(pubArray);
       } else {
@@ -91,7 +91,7 @@ const AddGame = () => {
   const getGenres = async () => {
     GenreService.getGenres().then(async (data) => {
       const status = data.status;
-      if (status == 200) {
+      if (status === 200) {
         const genreArray = data.data;
         setGenresList(genreArray);
       } else {
@@ -119,7 +119,7 @@ const AddGame = () => {
     getDevelopers();
     getPublishers();
     getGenres();
-  }, []);
+  });
 
   return (
     <Box
